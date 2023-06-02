@@ -32,10 +32,9 @@ echo Resoince is: $response &&
 }
 stage('Deploy') {
 steps {
-echo 'Deploying application...'
-sh 'date'
-sh 'id'
-sh 'sleep 1'
+sshagent(credentials: ['creds_srv']) {
+sh 'ssh -o StrictHostKeyChecking=no root@192.168.0.192  "cd web_app && git pull && go build ./web_app.go && ./web_app &"'
+}
 }
 }
 }
